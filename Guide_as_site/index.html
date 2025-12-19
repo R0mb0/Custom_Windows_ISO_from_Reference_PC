@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Windows ISO from Reference PC - Guide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Base stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="logo-title">
+      <span class="logo-icon">💿</span>
+      <div>
+        <h1 class="site-title">Custom Windows ISO from Reference PC</h1>
+        <p class="site-subtitle">Step-by-step guide</p>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <!-- Manual theme toggle (cycles through auto/light/dark) -->
+      <button id="theme-toggle" class="icon-button" aria-label="Toggle color theme">
+        <span id="theme-toggle-icon">🌓</span>
+      </button>
+
+      <!-- Accessibility panel toggle -->
+      <button id="accessibility-toggle"
+              class="icon-button"
+              aria-haspopup="dialog"
+              aria-expanded="false"
+              aria-controls="accessibility-panel">
+        ♿
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar / Table of contents -->
+    <nav class="sidebar" aria-label="Table of contents">
+      <h2 class="sidebar-title">Contents</h2>
+      <ol class="sidebar-list">
+        <li><a href="#requirements">1. Requirements</a></li>
+        <li><a href="#flash-image">2. Flash Windows 11 image</a></li>
+        <li><a href="#prepare-pc">3. Prepare the target PC</a></li>
+        <li><a href="#installer-guide">4. Inside Windows installer</a></li>
+      </ol>
+    </nav>
+
+    <!-- Main content -->
+    <main class="content" id="main-content">
+      <article class="guide">
+        <header class="guide-header">
+          <h1>Guide 📘</h1>
+          <p class="guide-intro">
+            This guide explains how to capture a custom Windows image from a reference PC
+            and save it to a USB drive as a deployable system image.
+          </p>
+        </header>
+
+        <!-- Section 1 -->
+        <section id="requirements">
+          <h2>1. Requirements ✅</h2>
+          <ul>
+            <li>Know how to access the BIOS settings of the target PC ⚙️</li>
+            <li>Two USB sticks (or one USB stick of at least 16 GB) 💾💾</li>
+            <li>A sheet of paper 📝</li>
+            <li>A pen 🖊️</li>
+            <li>Rufus tool:
+              <ul>
+                <li><code>choco install rufus</code></li>
+                <li><a href="https://rufus.ie/en/" target="_blank" rel="noopener">Rufus website</a></li>
+              </ul>
+            </li>
+            <li>Windows installation image:
+              <ul>
+                <li><a href="https://www.microsoft.com/en-us/software-download/windows11"
+                       target="_blank" rel="noopener">Windows 11 download</a></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="flash-image">
+          <h2>2. Flash the Windows 11 image to the USB stick 💿➡️💾</h2>
+          <ol>
+            <li>Connect the first USB stick to the PC 🔌</li>
+            <li>Open Rufus 🚀</li>
+            <li>
+              Select the correct USB stick  
+              <div class="image-wrapper">
+                <a href="https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/1.png"
+                   target="_blank" rel="noopener">
+                  <img src="https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/1.png?raw=true"
+                       alt="Rufus - select USB device">
+                </a>
+              </div>
+            </li>
+            <li>
+              Select the Windows 11 ISO  
+              <div class="image-wrapper">
+                <a href="https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/2.png"
+                   target="_blank" rel="noopener">
+                  <img src="https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/2.png?raw=true"
+                       alt="Rufus - select Windows ISO">
+                </a>
+              </div>
+            </li>
+            <li>
+              Set the correct BIOS/boot partition format  
+              <p>If the target PC uses UEFI, the partition table must be <strong>GPT</strong>.</p>
+              <div class="image-wrapper">
+                <a href="https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/3.png"
+                   target="_blank" rel="noopener">
+                  <img src="https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/3.png?raw=true"
+                       alt="Rufus - partition scheme GPT">
+                </a>
+              </div>
+            </li>
+            <li>
+              Check that the file system is <strong>NTFS</strong>  
+              <div class="image-wrapper">
+                <a href="https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/4.png"
+                   target="_blank" rel="noopener">
+                  <img src="https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/4.png?raw=true"
+                       alt="Rufus - NTFS file system">
+                </a>
+              </div>
+            </li>
+            <li>
+              (Optional) Other options you can set for the Windows ISO image:  
+              <div class="image-wrapper">
+                <a href="https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/5.png"
+                   target="_blank" rel="noopener">
+                  <img src="https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/5.png?raw=true"
+                       alt="Rufus - advanced options">
+                </a>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="prepare-pc">
+          <h2>3. Prepare the target PC 🖥️</h2>
+          <ol>
+            <li>Turn off the target PC (if it is on) 🔻</li>
+            <li>Connect both USB sticks 💾💾</li>
+            <li>Turn on the PC and enter the BIOS ⚙️</li>
+            <li>
+              Set the first USB stick as the boot device.  
+              At the end of the guide, it may be necessary to set
+              <strong>Windows Boot Manager</strong> as the default boot option 🔁
+            </li>
+          </ol>
+        </section>
+
+        <!-- Section 4 -->
+        <section id="installer-guide">
+          <h2>4. Steps inside the Windows installer 🪟</h2>
+          <ol>
+            <li>Press <kbd>Shift</kbd> + <kbd>F10</kbd> to open <strong>Command Prompt (cmd)</strong> ⌨️</li>
+            <li>
+              Type the following command and press <kbd>Enter</kbd> to open the partition tool:
+              <div class="code-block">
+                <pre><code>diskpart</code></pre>
+                <button class="copy-button" data-copy="diskpart" aria-label="Copy command">
+                  Copy
+                </button>
+              </div>
+            </li>
+            <li>
+              Inside <code>diskpart</code>, list all storage volumes:
+              <div class="code-block">
+                <pre><code>list vol</code></pre>
+                <button class="copy-button" data-copy="list vol" aria-label="Copy command">
+                  Copy
+                </button>
+              </div>
+              <p>Write down the output (for example on the sheet of paper) for the next steps 📝</p>
+            </li>
+            <li>
+              Exit <code>diskpart</code>:
+              <div class="code-block">
+                <pre><code>exit</code></pre>
+                <button class="copy-button" data-copy="exit" aria-label="Copy command">
+                  Copy
+                </button>
+              </div>
+            </li>
+            <li>
+              Capture the Windows image using <code>dism</code>.  
+              Adjust the placeholders in <code>&lt;...&gt;</code> before running:
+              <div class="code-block">
+                <pre><code>dism /capture-image /imagefile:&lt;drive_letter_of_second_USB&gt;:\install.wim /capturedir:&lt;drive_letter_where_Windows_is_installed&gt;:\ /scratchdir:&lt;scratch_drive_letter&gt;:\ /name:&lt;image_name_without_spaces&gt; /compress:maximum /checkintegrity /verify /bootable</code></pre>
+                <button class="copy-button"
+                        data-copy="dism /capture-image /imagefile:&lt;drive_letter_of_second_USB&gt;:\install.wim /capturedir:&lt;drive_letter_where_Windows_is_installed&gt;:\ /scratchdir:&lt;scratch_drive_letter&gt;:\ /name:&lt;image_name_without_spaces&gt; /compress:maximum /checkintegrity /verify /bootable"
+                        aria-label="Copy command">
+                  Copy
+                </button>
+              </div>
+              <ul>
+                <li><code>&lt;drive_letter_of_second_USB&gt;</code> → drive letter of the second USB stick (from <code>list vol</code>)</li>
+                <li><code>&lt;drive_letter_where_Windows_is_installed&gt;</code> → usually <code>C</code></li>
+                <li><code>&lt;scratch_drive_letter&gt;</code> → typically same as the second USB</li>
+                <li><code>&lt;image_name_without_spaces&gt;</code> → any name you like, without spaces</li>
+              </ul>
+            </li>
+            <li>
+              When the process finishes, shut down the PC:
+              <div class="code-block">
+                <pre><code>wpeutil shutdown</code></pre>
+                <button class="copy-button" data-copy="wpeutil shutdown" aria-label="Copy command">
+                  Copy
+                </button>
+              </div>
+              <p>The system will power off 📴</p>
+            </li>
+            <li>
+              The captured system image is now on the second USB stick with the name you chose! 🎉💾
+            </li>
+          </ol>
+        </section>
+      </article>
+    </main>
+  </div>
+
+  <!-- Accessibility panel (popup-style) -->
+  <div id="accessibility-panel"
+       class="accessibility-panel"
+       role="dialog"
+       aria-modal="false"
+       aria-labelledby="accessibility-title"
+       hidden>
+    <div class="accessibility-panel-inner">
+      <header class="accessibility-header">
+        <h2 id="accessibility-title">Accessibility options</h2>
+        <button id="accessibility-close" class="icon-button" aria-label="Close accessibility panel">
+          ✕
+        </button>
+      </header>
+
+      <section class="accessibility-section">
+        <h3>Theme</h3>
+        <div class="button-group" role="radiogroup" aria-label="Theme selection">
+          <button class="btn radio-btn" data-theme="auto">Auto</button>
+          <button class="btn radio-btn" data-theme="light">Light</button>
+          <button class="btn radio-btn" data-theme="dark">Dark</button>
+        </div>
+        <p class="accessibility-hint">
+          In <strong>Auto</strong> mode the site follows your system/browser color scheme.
+        </p>
+      </section>
+
+      <section class="accessibility-section">
+        <h3>Text size</h3>
+        <div class="button-group">
+          <button id="font-decrease" class="btn">A−</button>
+          <button id="font-reset" class="btn">A</button>
+          <button id="font-increase" class="btn">A+</button>
+        </div>
+        <p class="accessibility-hint">
+          Adjust the font size to improve readability. Your choice is saved for future visits.
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <!-- Copy notification -->
+  <div id="copy-toast" class="copy-toast" role="status" aria-live="polite" hidden>
+    Command copied to clipboard
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

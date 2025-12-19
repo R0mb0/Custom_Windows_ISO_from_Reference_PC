@@ -41,6 +41,6 @@
 3. Inside `diskpart` write: `list vol` and press `enter` to visualize all memories units
 4. Save (writing it in a piece of paper for example) the output for the next steps
 5. Now exit to `diskpart` writing `exit` and pressing `enter`
-6. Write `dism /capture-image /image-file:<path where save the windows image (use the notes to understand the label of the second USB stick)>:\install.win /capturedir:<insert the label where windows is installed (ex. c)>:\ /scratchdir:<the same used for "image-file>:\ /name:<write the name that you want for the image without spacing> /compress: maximum /checkintegrity /verify /bootable`
+6. Write `dism /capture-image /imagefile:<path where save the windows image (use the notes to understand the label of the second USB stick)>:\install.win /capturedir:<insert the label where windows is installed (ex. c)>:\ /scratchdir:<the same used for "imagefile>:\ /name:<write the name that you want for the image without spacing> /compress: maximum /checkintegrity /verify /bootable`
 7. At the end of the process you can turn off the pc writing `wpeutil shutdown` and pressing `enter`
 8. The system image will be in the second USB stick with the chosen name! 

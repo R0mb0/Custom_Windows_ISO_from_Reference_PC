@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Custom Windows ISO from Reference PC - Guide</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Base stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -43,6 +42,9 @@
         <li><a href="#flash-image">2. Flash Windows 11 image</a></li>
         <li><a href="#prepare-pc">3. Prepare the target PC</a></li>
         <li><a href="#installer-guide">4. Inside Windows installer</a></li>
+        <li><a href="#prepare-iso">5. Prepare the ISO content</a></li>
+        <li><a href="#create-iso">6. Create the ISO image</a></li>
+        <li><a href="#reference">Reference</a></li>
       </ol>
     </nav>
 
@@ -52,8 +54,8 @@
         <header class="guide-header">
           <h1>Guide 📘</h1>
           <p class="guide-intro">
-            This guide explains how to capture a custom Windows image from a reference PC
-            and save it to a USB drive as a deployable system image.
+            This guide explains how to capture a custom Windows image from a reference PC,
+            prepare the installer files, and create a bootable ISO image.
           </p>
         </header>
 
@@ -62,13 +64,13 @@
           <h2>1. Requirements ✅</h2>
           <ul>
             <li>Know how to access the BIOS settings of the target PC ⚙️</li>
-            <li>Two USB sticks (or one USB stick of at least 16 GB) 💾💾</li>
+            <li>Two USB sticks (of at least 16 GB) 💾💾</li>
             <li>A sheet of paper 📝</li>
             <li>A pen 🖊️</li>
             <li>Rufus tool:
               <ul>
                 <li><code>choco install rufus</code></li>
-                <li><a href="https://rufus.ie/en/" target="_blank" rel="noopener">Rufus website</a></li>
+                <li><a href="https://rufus.ie/en/" target="_blank" rel="noopener">Rufus</a></li>
               </ul>
             </li>
             <li>Windows installation image:
@@ -128,7 +130,7 @@
               </div>
             </li>
             <li>
-              (Optional) Other options you can set for the Windows ISO image:  
+              Other options that you can set for the Windows ISO image:  
               <div class="image-wrapper">
                 <a href="https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/5.png"
                    target="_blank" rel="noopener">
@@ -144,11 +146,12 @@
         <section id="prepare-pc">
           <h2>3. Prepare the target PC 🖥️</h2>
           <ol>
-            <li>Turn off the target PC (if it is on) 🔻</li>
+            <li>Turn off the target PC (if it is on)</li>
             <li>Connect both USB sticks 💾💾</li>
             <li>Turn on the PC and enter the BIOS ⚙️</li>
             <li>
-              Set the first USB stick as the boot device.  
+              Set the first USB stick as the boot device  
+              <br>
               At the end of the guide, it may be necessary to set
               <strong>Windows Boot Manager</strong> as the default boot option 🔁
             </li>
@@ -189,37 +192,140 @@
               </div>
             </li>
             <li>
-              Capture the Windows image using <code>dism</code>.  
-              Adjust the placeholders in <code>&lt;...&gt;</code> before running:
+              Now type the following command (all on one line), customizing the values in angle brackets <code>&lt;...&gt;</code>:
               <div class="code-block">
-                <pre><code>dism /capture-image /imagefile:&lt;drive_letter_of_second_USB&gt;:\install.wim /capturedir:&lt;drive_letter_where_Windows_is_installed&gt;:\ /scratchdir:&lt;scratch_drive_letter&gt;:\ /name:&lt;image_name_without_spaces&gt; /compress:maximum /checkintegrity /verify /bootable</code></pre>
+                <pre><code>dism /capture-image /imagefile:&lt;drive_letter_of_second_USB&gt;:\install.wim /capturedir:&lt;drive_letter_where_Windows_is_installed&gt;:\ /scratchdir:&lt;same_drive_as_imagefile&gt;:\ /name:&lt;image_name_without_spaces&gt; /compress:maximum /checkintegrity /verify /bootable</code></pre>
                 <button class="copy-button"
-                        data-copy="dism /capture-image /imagefile:&lt;drive_letter_of_second_USB&gt;:\install.wim /capturedir:&lt;drive_letter_where_Windows_is_installed&gt;:\ /scratchdir:&lt;scratch_drive_letter&gt;:\ /name:&lt;image_name_without_spaces&gt; /compress:maximum /checkintegrity /verify /bootable"
+                        data-copy="dism /capture-image /imagefile:&lt;drive_letter_of_second_USB&gt;:\install.wim /capturedir:&lt;drive_letter_where_Windows_is_installed&gt;:\ /scratchdir:&lt;same_drive_as_imagefile&gt;:\ /name:&lt;image_name_without_spaces&gt; /compress:maximum /checkintegrity /verify /bootable"
                         aria-label="Copy command">
                   Copy
                 </button>
               </div>
+
               <ul>
-                <li><code>&lt;drive_letter_of_second_USB&gt;</code> → drive letter of the second USB stick (from <code>list vol</code>)</li>
-                <li><code>&lt;drive_letter_where_Windows_is_installed&gt;</code> → usually <code>C</code></li>
-                <li><code>&lt;scratch_drive_letter&gt;</code> → typically same as the second USB</li>
-                <li><code>&lt;image_name_without_spaces&gt;</code> → any name you like, without spaces</li>
+                <li><code>&lt;drive_letter_of_second_USB&gt;</code> → the drive letter of the second USB stick (use the notes from <code>list vol</code>)</li>
+                <li><code>&lt;drive_letter_where_Windows_is_installed&gt;</code> → the drive letter where Windows is installed (for example <code>C</code>)</li>
+                <li><code>&lt;same_drive_as_imagefile&gt;</code> → usually the same as <code>&lt;drive_letter_of_second_USB&gt;</code></li>
+                <li><code>&lt;image_name_without_spaces&gt;</code> → the name you want to give to the image (no spaces)</li>
               </ul>
             </li>
             <li>
-              When the process finishes, shut down the PC:
+              At the end of the process, you can turn off the PC by typing:
               <div class="code-block">
                 <pre><code>wpeutil shutdown</code></pre>
                 <button class="copy-button" data-copy="wpeutil shutdown" aria-label="Copy command">
                   Copy
                 </button>
               </div>
-              <p>The system will power off 📴</p>
+              and pressing <kbd>Enter</kbd> 📴
             </li>
             <li>
-              The captured system image is now on the second USB stick with the name you chose! 🎉💾
+              The system image will be saved on the second USB stick with the name you chose! 🎉💾
             </li>
           </ol>
+        </section>
+
+        <!-- Section 5 -->
+        <section id="prepare-iso">
+          <h2>5. Prepare the ISO content 📂</h2>
+          <ol>
+            <li>Connect both USB sticks to the working PC 💾💻</li>
+            <li>
+              Create a working directory on the PC (for example: <code>C:\WinISO_Workdir</code>) 📁
+            </li>
+            <li>
+              Copy all the content from the Windows installer USB stick into the working directory.
+            </li>
+            <li>
+              In the working directory, go to the <code>sources</code> folder and replace the existing
+              <code>install.wim</code> file with the <code>install.wim</code> from the second USB stick
+              (the one created with <code>dism</code>).
+              <ul>
+                <li>
+                  Original file path:  
+                  <code>&lt;working_directory&gt;\sources\install.wim</code>
+                </li>
+                <li>
+                  New file path (from second USB):  
+                  <code>&lt;second_USB_drive_letter&gt;:\install.wim</code>
+                </li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Section 6 -->
+        <section id="create-iso">
+          <h2>6. Create the ISO image 💿</h2>
+          <ol>
+            <li>
+              Install the <strong>Windows ADK</strong> (Assessment and Deployment Kit):
+              <ul>
+                <li>
+                  <strong>Using Chocolatey</strong>:
+                  <div class="code-block">
+                    <pre><code>choco install windows-adk</code></pre>
+                    <button class="copy-button"
+                            data-copy="choco install windows-adk"
+                            aria-label="Copy command">
+                      Copy
+                    </button>
+                  </div>
+                </li>
+                <li>
+                  Or by using the official installer:  
+                  <a href="https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install"
+                     target="_blank" rel="noopener">
+                    Windows ADK installer
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              Open <strong>Deployment and Imaging Tools Environment</strong> as Administrator.
+            </li>
+            <li>
+              Once you are inside the working directory, run the following command (all on one line),
+              replacing the values in <code>&lt;...&gt;</code> with your paths:
+              <div class="code-block">
+                <pre><code>oscdimg.exe -m -o -u2 -udfver102 -bootdata:2#p0,e,b&lt;Source Path&gt;\boot\etfsboot.com#pEF,e,b&lt;Source Path&gt;\efi\microsoft\boot\efisys.bin &lt;Source Path&gt; &lt;Saving path and name of file&gt;</code></pre>
+                <button class="copy-button"
+                        data-copy="oscdimg.exe -m -o -u2 -udfver102 -bootdata:2#p0,e,b&lt;Source Path&gt;\boot\etfsboot.com#pEF,e,b&lt;Source Path&gt;\efi\microsoft\boot\efisys.bin &lt;Source Path&gt; &lt;Saving path and name of file&gt;"
+                        aria-label="Copy command">
+                  Copy
+                </button>
+              </div>
+
+              <p>Where:</p>
+              <ul>
+                <li>
+                  <code>&lt;Source Path&gt;</code> → the full path of the working directory  
+                  (for example <code>C:\WinISO_Workdir</code>)
+                </li>
+                <li>
+                  <code>&lt;Saving path and name of file&gt;</code> → the full path and file name of the ISO
+                  you want to create (for example <code>D:\ISOs\Custom_Windows11.iso</code>)
+                </li>
+              </ul>
+            </li>
+            <li>
+              When the command finishes successfully, your custom ISO image will be available at:  
+              <code>&lt;Saving path and name of file&gt;</code> 🎉💾
+            </li>
+          </ol>
+        </section>
+
+        <!-- Reference -->
+        <section id="reference">
+          <h2>Reference 🔗</h2>
+          <ul>
+            <li>
+              <a href="https://www.tenforums.com/tutorials/72031-create-windows-10-iso-image-existing-installation.html"
+                 target="_blank" rel="noopener">
+                Create Windows 10 ISO image from existing installation (TenForums)
+              </a>
+            </li>
+          </ul>
         </section>
       </article>
     </main>

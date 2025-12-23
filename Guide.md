@@ -2,22 +2,22 @@
 
 ## 1. Requirements ✅
 
-- Know how to access the BIOS settings of the target PC ⚙️
-- Two USB sticks (of at least 16 GB) 💾💾
-- A sheet of paper 📝
-- A pen 🖊️
+- Know how to access the BIOS settings of the target PC ⚙️  
+- Two USB sticks (of at least 16 GB) 💾💾  
+- A sheet of paper 📝  
+- A pen 🖊️  
 - Rufus tool:
   - `choco install rufus`
   - [Rufus](https://rufus.ie/en/)
 - Windows installation image:
-  - [Windows](https://www.microsoft.com/en-us/software-download/windows11)
+  - [Windows 11 download](https://www.microsoft.com/en-us/software-download/windows11)
 
 ---
 
 ## 2. Flash the Windows 11 image to the USB stick 💿➡️💾
 
-1. Connect the first USB stick to the PC 
-2. Open Rufus 
+1. Connect the first USB stick to the PC  
+2. Open Rufus   
 3. Select the correct USB stick  
    - [![1.png](https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/1.png?raw=true)](https://github.com/R0mb0/Custom_Windows_ISO_from_Reference_PC/blob/main/Imgs/1.png)
 4. Select the Windows 11 ISO  
@@ -34,21 +34,21 @@
 
 ## 3. Prepare the target PC 🖥️
 
-1. Turn off the target PC (if it is on) 
-2. Connect both USB sticks 💾💾
-3. Turn on the PC and enter the BIOS ⚙️
+1. Turn off the target PC (if it is on)   
+2. Connect both USB sticks 💾💾  
+3. Turn on the PC and enter the BIOS ⚙️  
 4. Set the first USB stick as the boot device  
-   - At the end of the guide, it may be necessary to set **Windows Boot Manager** as the default boot option 🔁
+   - At the end of the guide, it may be necessary to set **Windows Boot Manager** as the default boot option 🔁  
 
 ---
 
 ## 4. Steps inside the Windows installer 🪟
 
-1. Press `Shift + F10` to open **Command Prompt (cmd)** ⌨️
-2. Type `diskpart` and press `Enter` to open the partition tool
-3. Inside `diskpart`, type `list vol` and press `Enter` to list all storage volumes 💽
-4. Write down the output (for example on the sheet of paper) for the next steps 📝
-5. Exit `diskpart` by typing `exit` and pressing `Enter`
+1. Press `Shift + F10` to open **Command Prompt (cmd)** ⌨️  
+2. Type `diskpart` and press `Enter` to open the partition tool.  
+3. Inside `diskpart`, type `list vol` and press `Enter` to list all storage volumes 💽  
+4. Write down the output (for example on the sheet of paper) for the next steps 📝  
+5. Exit `diskpart` by typing `exit` and pressing `Enter`.  
 6. Now type the following command (all on one line), customizing the values in angle brackets `<...>`:
 
    ```cmd
@@ -66,36 +66,55 @@
    wpeutil shutdown
    ```
 
-   and pressing `Enter` 📴
+   and pressing `Enter` 📴  
 
-8. The system image will be saved on the second USB stick with the name you chose! 🎉💾
+8. The system image will be saved on the second USB stick with the name you chose! 🎉💾  
 
-## 5. Prepare ISO content
+---
 
-1. Connect the two USB sticks in the working pc
-2. Prepare in the pc a working directory
-3. Copy the content of the Windows installer USB stick inside the working directory.
-4. Replace `install.wim` inside `/sources/` with `install.wim` inside the second USB stick
+## 5. Prepare the ISO content 📂
 
-## 6. Create the ISO Image
+1. Connect both USB sticks to the working PC 💾💻  
+2. Create a working directory on the PC (for example: `C:\WinISO_Workdir`) 📁  
+3. Copy all the content from the Windows installer USB stick into the working directory.  
+4. In the working directory, go to the `sources` folder and replace the existing `install.wim` file with the `install.wim` from the second USB stick (the one created with `dism`).  
 
-1. Installing Windows ADK
-   - **Using Choco**
+   - Original file path:  
+     - `<working_directory>\sources\install.wim`  
+   - New file path (from second USB):  
+     - `<second_USB_drive_letter>:\install.wim`  
+
+---
+
+## 6. Create the ISO image 💿
+
+1. Install the **Windows ADK** (Assessment and Deployment Kit):
+
+   - **Using Chocolatey**:
      ```cmd
-        choco install windows-adk
+     choco install windows-adk
      ```
-   - By the [installer](https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install)
-3. Open `Deployment and Imaging Tools Enviroment`
-4. Move inside the working dir
-   - Use `dir` command to look inside the directory
-   - Use `cd` to change the directory
-6. Execute this command:
+   - Or by using the official installer:  
+     - [Windows ADK installer](https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install)
+
+2. Open **Deployment and Imaging Tools Environment** as Administrator.  
+3. Once you are inside the working directory, run the following command (all on one line), replacing the values in `<...>` with your paths:
+
    ```cmd
-      oscdimg.exe -m -o -u2 -udfver102 -bootdata:2#p0,e,b<Source Path>\boot\etfsboot.com#pEF,e,b<Source Path>\efi\microsoft\boot\efisys.bin <Source Path> <Saving path and name of file>
+   oscdimg.exe -m -o -u2 -udfver102 -bootdata:2#p0,e,b<Source Path>\boot\etfsboot.com#pEF,e,b<Source Path>\efi\microsoft\boot\efisys.bin <Source Path> <Saving path and name of file>
    ```
 
-   - `<Source Path>` → The path of the working directory
-   - `<Saving path and name of file>` → The path where save the iso and in the end the name of the file .iso without spaces
-7. You will find your iso in your saving path from this link `<Saving path and name of file>`🎉💾
+   Where:
 
-## [Reference Link](https://www.tenforums.com/tutorials/72031-create-windows-10-iso-image-existing-installation.html)
+   - `<Source Path>` → the full path of the working directory (for example `C:\WinISO_Workdir`)  
+   - `<Saving path and name of file>` → the full path and file name of the ISO you want to create  
+     - Example: `D:\ISOs\Custom_Windows11.iso`  
+
+4. When the command finishes successfully, your custom ISO image will be available at:  
+   - `<Saving path and name of file>` 🎉💾  
+
+---
+
+## Reference 🔗
+
+- [Create Windows 10 ISO image from existing installation (TenForums)](https://www.tenforums.com/tutorials/72031-create-windows-10-iso-image-existing-installation.html)

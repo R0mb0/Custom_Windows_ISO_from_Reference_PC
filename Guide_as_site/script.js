@@ -1,11 +1,6 @@
-// =======================
-// THEME & ACCESSIBILITY
-// =======================
-
 const THEME_KEY = "guide_theme";
 const FONT_SCALE_KEY = "guide_font_scale";
 
-// Initial setup on DOM ready
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initFontScale();
@@ -17,13 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ---------- THEME ----------
 function initTheme() {
-  // Load saved theme (auto/light/dark)
   const savedTheme = localStorage.getItem(THEME_KEY);
 
   if (savedTheme === "light" || savedTheme === "dark" || savedTheme === "auto") {
     document.documentElement.setAttribute("data-theme", savedTheme);
   } else {
-    // default to auto (follows system)
     document.documentElement.setAttribute("data-theme", "auto");
   }
 
@@ -32,7 +25,6 @@ function initTheme() {
 }
 
 function setTheme(mode) {
-  // mode: "auto" | "light" | "dark"
   document.documentElement.setAttribute("data-theme", mode);
   localStorage.setItem(THEME_KEY, mode);
   updateThemeToggleIcon();
@@ -45,7 +37,6 @@ function updateThemeToggleIcon() {
 
   const theme = document.documentElement.getAttribute("data-theme") || "auto";
 
-  // Simple icon logic
   if (theme === "light") {
     iconSpan.textContent = "🌞";
   } else if (theme === "dark") {
@@ -74,13 +65,11 @@ function initThemeControls() {
   if (toggleBtn) {
     toggleBtn.addEventListener("click", () => {
       const current = document.documentElement.getAttribute("data-theme") || "auto";
-      // Cycle: auto -> light -> dark -> auto
       const next = current === "auto" ? "light" : current === "light" ? "dark" : "auto";
       setTheme(next);
     });
   }
 
-  // Radio-style buttons inside accessibility panel
   document
     .querySelectorAll('.radio-btn[data-theme]')
     .forEach((btn) => {
@@ -107,7 +96,6 @@ function changeFontScale(delta) {
     getComputedStyle(document.documentElement).getPropertyValue("--font-size-scale") || "1"
   );
   let next = current + delta;
-  // Clamp between 0.8x and 1.4x
   next = Math.min(1.4, Math.max(0.8, next));
   document.documentElement.style.setProperty("--font-size-scale", next.toString());
   localStorage.setItem(FONT_SCALE_KEY, next.toString());
@@ -160,7 +148,6 @@ function initAccessibilityPanel() {
     closeBtn.addEventListener("click", closePanel);
   }
 
-  // Close panel on Escape
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !panel.hasAttribute("hidden")) {
       closePanel();
@@ -191,7 +178,6 @@ function initCopyButtons() {
         showToast();
       } catch (err) {
         console.error("Clipboard copy failed", err);
-        // Fallback: select text in the code block
         const pre = btn.previousElementSibling;
         if (pre && pre.tagName === "PRE") {
           const range = document.createRange();

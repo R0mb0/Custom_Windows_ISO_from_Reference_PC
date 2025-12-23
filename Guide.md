@@ -69,3 +69,31 @@
    and pressing `Enter` 📴
 
 8. The system image will be saved on the second USB stick with the name you chose! 🎉💾
+
+## 5. Prepare ISO content
+
+1. Connect the two USB sticks in the working pc
+2. Prepare in the pc a working directory
+3. Copy the content of the Windows installer USB stick inside the working directory.
+4. Replace `install.wim` inside `/sources/` with `install.wim` inside the second USB stick
+
+## 6. Create the ISO Image
+
+1. Installing Windows ADK
+   - **Using Choco**
+     ```cmd
+        choco install windows-adk
+     ```
+   - By the [installer](https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install)
+3. Open `Deployment and Imaging Tools Enviroment`
+4. Move inside the working dir
+   - Use `dir` command to look inside the directory
+   - Use `cd` to change the directory
+6. Execute this command:
+   ```cmd
+      oscdimg.exe -m -o -u2 -udfver102 -bootdata:2#p0,e,b<Source Path>\boot\etfsboot.com#pEF,e,b<Source Path>\efi\microsoft\boot\efisys.bin <Source Path> <Saving path and name of file>
+   ```
+
+   - `<Source Path>` → The path of the working directory
+   - `<Saving path and name of file>` → The path where save the iso and in the end the name of the file .iso without spaces
+7. You will find your iso in your saving path from this link `<Saving path and name of file>`🎉💾
